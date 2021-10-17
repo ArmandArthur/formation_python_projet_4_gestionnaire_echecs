@@ -26,11 +26,12 @@ class App:
     def QuestionsPlayer(self):
         for key, question in self.questionsPlayer.items():
             self.answersPlayer[key] = input(question)
+        
         # New PLAYER
-        newPlayer = self.answersPlayer
-        self.VerifyPlayer(newPlayer)
+        self.VerifyPlayer()
 
-    def VerifyPlayer(self, newPlayer):
+    def VerifyPlayer(self):
+        newPlayer = self.answersPlayer
         try:
             player = self.controllerPlayer(**newPlayer)
             self.InsertJsonPlayer(player)
