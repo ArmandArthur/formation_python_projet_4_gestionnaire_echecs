@@ -8,6 +8,6 @@ class QuestionsPlayerView:
     def main(self):
         self.questions['Name'] = 'What is your name?'
         self.questions['FirstName'] = 'What is your firstname?'
-        self.questions['Birthday'] = 'When were you born?'
+        self.questions['BirthdayDate'] = 'When were you born?'
         self.questions['Sexe'] = 'What is your sexe?'  
         return self.questions

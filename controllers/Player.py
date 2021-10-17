@@ -7,16 +7,15 @@ from pydantic import (
     PositiveInt,
     constr
 )
-from datetime import datetime
+from datetime import date
 from typing import List, Optional
 
 class PlayerController(BaseModel):
-    Id: PositiveInt
+    Id:  Optional[PositiveInt] = None 
     Name: constr(max_length=100)
     FirstName: constr(max_length=100)
-    BirthdayDate: datetime 
+    BirthdayDate: date 
     Sexe: PlayerGenderController
-    Classement: PositiveInt
-
+    Classement: Optional[PositiveInt] = None 
 
 
