@@ -12,8 +12,8 @@ import unicodedata
 from pathlib import Path
 
 class App:
-    def __init__(self, controllerPlayer, QuestionsPlayer):
-        self.controllerPlayer = controllerPlayer
+    def __init__(self, PlayerController, QuestionsPlayer):
+        self.controllerPlayer = PlayerController
         self.questionsPlayer = QuestionsPlayerView().main()
         self.answersPlayer = {}
         self.pathPlayer = 'datas/players/'
