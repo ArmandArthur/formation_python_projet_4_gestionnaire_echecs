@@ -33,6 +33,7 @@ class App:
     def VerifyPlayer(self):
         newPlayer = self.answersPlayer
         try:
+            player = self.modelPlayer(**newPlayer)
             self.InsertJsonPlayer(player)
         except ValidationError as e:
             print(e.json())
