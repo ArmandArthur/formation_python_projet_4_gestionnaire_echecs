@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
-from controllers.PlayerGender import PlayerGenderController
+from models.PlayerGender import PlayerGenderModel
 
 from pydantic import (
     BaseModel,
@@ -10,12 +10,12 @@ from pydantic import (
 from datetime import date
 from typing import List, Optional
 
-class PlayerController(BaseModel):
+class PlayerModel(BaseModel):
     Id:  Optional[PositiveInt] = None 
     Name: constr(max_length=100)
     FirstName: constr(max_length=100)
     BirthdayDate: date 
-    Sexe: PlayerGenderController
+    Sexe: PlayerGenderModel
     Classement: Optional[PositiveInt] = None 
 
 

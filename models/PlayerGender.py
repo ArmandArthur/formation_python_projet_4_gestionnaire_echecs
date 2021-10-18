@@ -3,7 +3,7 @@
 
 from enum import Enum
 
-class PlayerGenderController(str, Enum):
+class PlayerGenderModel(str, Enum):
     Male='H'
     Female='F'
 

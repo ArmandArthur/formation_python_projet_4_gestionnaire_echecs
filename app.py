@@ -2,7 +2,7 @@
 # coding: utf-8
 
 
-from controllers.Player import PlayerController
+from models.Player import PlayerModel
 from views.QuestionsPlayerView import QuestionsPlayerView
 
 from pydantic import ValidationError
@@ -12,8 +12,8 @@ import unicodedata
 from pathlib import Path
 
 class App:
-    def __init__(self, PlayerController, QuestionsPlayer):
-        self.controllerPlayer = PlayerController
+    def __init__(self):
+        self.modelPlayer = PlayerModel
         self.questionsPlayer = QuestionsPlayerView().main()
         self.answersPlayer = {}
         self.pathPlayer = 'datas/players/'
@@ -33,7 +33,6 @@ class App:
     def VerifyPlayer(self):
         newPlayer = self.answersPlayer
         try:
-            player = self.controllerPlayer(**newPlayer)
             self.InsertJsonPlayer(player)
         except ValidationError as e:
             print(e.json())
@@ -66,7 +65,4 @@ class App:
         return str(text)
 
 if __name__ == "__main__":
-    App(
-        PlayerController,
-        QuestionsPlayerView
-    )
+    App()
