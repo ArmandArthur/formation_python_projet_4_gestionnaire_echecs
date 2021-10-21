@@ -11,24 +11,28 @@ class AppRouter:
         self.MenuPrincipal = MenuPrincipalView()
         self.MenuPrincalPlayer = MenuPrincipalPlayerView()
         self.PlayerController = PlayerController
+
+        self.questions = {}
+        self.answer = None
+        
         self.main()
         
     def main(self):
-        MenuPrincipalQuestions = self.MenuPrincipal.questionsMain()
-        for question in MenuPrincipalQuestions.items():
-            print(question)
-        MenuPrincipalAnswer = input("Votre choix: ")
-        print("\n")
+        self.questions = self.MenuPrincipal.questionsMain()
+        self.displayMenu()
 
-        if(MenuPrincipalAnswer == "1"):
-            MenuPrincipalPlayerQuestions = self.MenuPrincalPlayer.questionsPlayer()
-            for question in MenuPrincipalPlayerQuestions.items():
-                print(question)
-            MenuPrincipalPlayerAnswer = input("Votre choix: ")
-            print("\n")
+        if(self.answer == "1"):
+            self.questions = self.MenuPrincalPlayer.questionsPlayer()
+            self.displayMenu()
            
-            if(MenuPrincipalPlayerAnswer == "1"):
+            if(self.answer == "1"):
                 self.PlayerController()
+
+    def displayMenu(self):
+        for key, question in self.questions.items():
+            print(question)
+        self.answer = input("Votre choix: ")
+        print("\n")
 
 if __name__ == "__main__":
     AppRouter()

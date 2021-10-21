@@ -24,6 +24,7 @@ class PlayerController:
         self.QuestionsPlayer()
 
     def QuestionsPlayer(self):
+        print("### Menu : Create Player ###")
         for key, question in self.questionsPlayer.items():
             self.answersPlayer[key] = input(question)
         
