@@ -29,9 +29,9 @@ class AppRouter:
                 self.PlayerController()
 
     def displayMenu(self):
-        for key, question in self.questions.items():
+        for _, question in self.questions.items():
             print(question)
-        self.answer = input("Votre choix: ")
+        self.answer = input("Your chooe: ")
         print("\n")
 
 if __name__ == "__main__":
