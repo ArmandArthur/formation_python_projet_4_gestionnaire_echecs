@@ -4,8 +4,8 @@
 class MenuPrincipalPlayerView:
     def __init__(self):
         self.questions = {}
-        
-    def questionsPlayer(self):
+
+    def questions_player(self):
         self.questions["playerCreate"] = "1) Create player"
-        self.questions["playerList"] = "2) Players list" 
+        self.questions["playerList"] = "2) Players list"
         return self.questions

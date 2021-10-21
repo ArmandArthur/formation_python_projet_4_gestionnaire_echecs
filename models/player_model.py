@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
-from models.PlayerGender import PlayerGenderModel
+from models.player_gender_model import PlayerGenderModel
 
 from pydantic import (
     BaseModel,
@@ -8,14 +8,13 @@ from pydantic import (
     constr
 )
 from datetime import date
-from typing import List, Optional
+from typing import Optional
+
 
 class PlayerModel(BaseModel):
-    Id:  Optional[PositiveInt] = None 
+    Id:  Optional[PositiveInt] = None
     Name: constr(max_length=100)
     FirstName: constr(max_length=100)
-    BirthdayDate: date 
+    BirthdayDate: date
     Sexe: PlayerGenderModel
-    Classement: Optional[PositiveInt] = None 
-
-
+    Classement: Optional[PositiveInt] = None

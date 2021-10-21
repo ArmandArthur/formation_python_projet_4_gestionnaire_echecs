@@ -4,7 +4,7 @@
 class MainView:
     def __init__(self):
         self.questions = {}
-        
+
     def display_menu(self, questions):
         self.questions = questions
         for _, question in self.questions.items():
