@@ -3,14 +3,18 @@
 
 from views.MenuPrincipalView import MenuPrincipalView
 from views.MenuPrincipalPlayerView import MenuPrincipalPlayerView
+from views.main_view import MainView
 
 from controllers.PlayerController import PlayerController
 
 class AppRouter:
     def __init__(self):
+
         self.MenuPrincipal = MenuPrincipalView()
         self.MenuPrincalPlayer = MenuPrincipalPlayerView()
         self.PlayerController = PlayerController
+
+        self.MainView = MainView()
 
         self.questions = {}
         self.answer = None
@@ -19,20 +23,14 @@ class AppRouter:
         
     def main(self):
         self.questions = self.MenuPrincipal.questionsMain()
-        self.displayMenu()
+        self.answer = self.MainView.display_menu(self.questions)
 
         if(self.answer == "1"):
             self.questions = self.MenuPrincalPlayer.questionsPlayer()
-            self.displayMenu()
+            self.answer = self.MainView.display_menu(self.questions)
            
             if(self.answer == "1"):
                 self.PlayerController()
-
-    def displayMenu(self):
-        for _, question in self.questions.items():
-            print(question)
-        self.answer = input("Your chooe: ")
-        print("\n")
 
 if __name__ == "__main__":
     AppRouter()
