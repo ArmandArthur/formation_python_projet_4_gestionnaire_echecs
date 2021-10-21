@@ -11,15 +11,15 @@ import json
 import unicodedata
 from pathlib import Path
 
-class App:
+class PlayerController:
     def __init__(self):
         self.modelPlayer = PlayerModel
         self.questionsPlayer = QuestionsPlayerView().main()
         self.answersPlayer = {}
         self.pathPlayer = 'datas/players/'
-        self.main()
+        self.menu()
         
-    def main(self):
+    def menu(self):
 
         self.QuestionsPlayer()
 
@@ -64,6 +64,3 @@ class App:
         text = text.encode('ascii', 'ignore')
         text = text.decode("utf-8")
         return str(text)
-
-if __name__ == "__main__":
-    App()
