@@ -3,9 +3,8 @@
 
 from views.MenuPrincipalView import MenuPrincipalView
 from views.MenuPrincipalPlayerView import MenuPrincipalPlayerView
-from controllers.PlayerController import PlayerController
 
-from pathlib import Path
+from controllers.PlayerController import PlayerController
 
 class AppRouter:
     def __init__(self):
