@@ -2,8 +2,8 @@
 # coding: utf-8
 
 class AppConfig:
-    liste_config = dict(player='datas/players.json', 
-    tournament='datas/tournaments.json')
+    liste_config = dict(player='players.json', 
+    tournament='tournaments.json')
 
     def __init__(self, table):
         self.table = table
