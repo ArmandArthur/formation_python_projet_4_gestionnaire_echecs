@@ -21,7 +21,7 @@ class PlayerController:
         self.player_model = PlayerModel
         self.questions_player = QuestionsPlayerView().main()
         self.formulaire_view = FormulaireView()
-        self.genrique_dao = GeneriqueDao('player')
+        self.generique_dao = GeneriqueDao('player')
         self.answers_player = {}
         self.display_questions_player()
 
@@ -36,8 +36,7 @@ class PlayerController:
         newPlayer = self.answers_player
         try:
             player = self.player_model(**newPlayer)
-            print(player.dict())
-            self.genrique_dao.add(player.dict())
+            self.generique_dao.add(player.dict())
         except ValidationError as e:
             errors = e.errors()
             self.formulaire_view.display_errors(errors)

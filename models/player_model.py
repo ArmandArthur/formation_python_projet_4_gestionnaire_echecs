@@ -7,7 +7,7 @@ from pydantic import (
     PositiveInt,
     constr
 )
-from datetime import date
+from datetime import datetime
 from typing import Optional
 
 
@@ -15,6 +15,6 @@ class PlayerModel(BaseModel):
     Id:  Optional[PositiveInt] = None
     Name: constr(max_length=100)
     FirstName: constr(max_length=100)
-    BirthdayDate: date
+    BirthdayDate: datetime
     Sexe: PlayerGenderModel
     Classement: Optional[PositiveInt] = None
