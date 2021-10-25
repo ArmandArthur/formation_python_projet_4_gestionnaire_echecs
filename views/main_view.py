@@ -16,6 +16,8 @@ class MainView:
     def display_comments(self, string):
         if(string == 'create_player'):
             print("### Menu : Create Player ###")
+        elif(string == 'create_player_done'):
+            print("### Player create ###")
 
     def display_errors(self, errors):
         for error_item in errors:

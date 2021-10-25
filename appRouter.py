@@ -18,7 +18,7 @@ class AppRouter:
         """
         self.menu_principal = MenuPrincipalView()
         self.menu_principal_player = MenuPrincipalPlayerView()
-        self.player_controller = PlayerController
+        self.player_controller = PlayerController()
 
         self.main_view = MainView()
 
@@ -36,7 +36,11 @@ class AppRouter:
             self.answer = self.main_view.display_menu(self.questions)
 
             if(self.answer == "1"):
-                self.player_controller()
+                is_create_player = self.player_controller.display_questions_player()
+                if is_create_player is True:
+                    self.main()
+            elif(self.answer == "2"):
+                self.player_controller.display_all_players()
 
 
 if __name__ == "__main__":

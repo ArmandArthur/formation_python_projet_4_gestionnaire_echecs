@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-from tinydb import TinyDB, Query
+from tinydb import TinyDB
 
 from config.app_config import AppConfig
 
@@ -37,3 +37,6 @@ class GeneriqueDao:
 
     def add(self, datas):
         return self.db.insert(datas)
+    
+    def all(self):
+        return self.db.all()
