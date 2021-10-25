@@ -3,8 +3,9 @@
 
 from views.menu_principal_view import MenuPrincipalView
 from views.menu_principal_player_view import MenuPrincipalPlayerView
+from views.menu_sort_players_view import MenuSortPlayersView
 from views.main_view import MainView
-
+from views.table_view import TableView
 from controllers.player_controller import PlayerController
 
 
@@ -18,9 +19,11 @@ class AppRouter:
         """
         self.menu_principal = MenuPrincipalView()
         self.menu_principal_player = MenuPrincipalPlayerView()
+        self.menu_sort_players = MenuSortPlayersView()
         self.player_controller = PlayerController()
 
         self.main_view = MainView()
+        self.table_view = TableView()
 
         self.questions = {}
         self.answer = None
@@ -40,7 +43,19 @@ class AppRouter:
                 if is_create_player is True:
                     self.main()
             elif(self.answer == "2"):
-                self.player_controller.display_all_players()
+                list_players = self.player_controller.display_all_players()
+                self.table_view.display(list_players)
+                self.menu_sort()
+
+    def menu_sort(self):
+        self.questions = self.menu_sort_players.sort_players()
+        self.answer = self.main_view.display_menu(self.questions)
+        if(self.answer != 'q'):
+            list_players_sort = self.player_controller.sort_all_players(self.answer)
+            self.table_view.display(list_players_sort)
+            self.menu_sort()
+        else:
+            self.main()
 
 
 if __name__ == "__main__":

@@ -2,10 +2,11 @@
 # coding: utf-8
 
 
+from posixpath import split
 from models.player_model import PlayerModel
 from views.questions_player_view import QuestionsPlayerView
 from views.formulaire_view import FormulaireView
-from views.table_view import TableView
+
 from dao.generique_dao import GeneriqueDao
 
 from pydantic import ValidationError
@@ -22,7 +23,6 @@ class PlayerController:
         self.player_model = PlayerModel
         self.questions_player = QuestionsPlayerView().main()
         self.formulaire_view = FormulaireView()
-        self.table_view = TableView()
         self.generique_dao = GeneriqueDao('player')
         self.answers_player = {}
 
@@ -47,4 +47,21 @@ class PlayerController:
     
     def display_all_players(self):
         list_players = self.generique_dao.all()
-        self.table_view.display(list_players)
+        return list_players
+    
+    def sort_all_players(self, answers_keys):
+        self.answers_keys_sort = answers_keys
+
+        players = self.display_all_players()
+        db_sorted = sorted(players, key=lambda row: self.sort_tuple(row))
+        return db_sorted
+    
+    def sort_tuple(self, row):
+        # Split answer
+        split_keys_sort = self.answers_keys_sort.split(',')
+        tuple_sort = ()
+
+        # Create tuple with values answers
+        for iteration in split_keys_sort:
+            tuple_sort = tuple_sort + (row[iteration],)
+        return tuple_sort
