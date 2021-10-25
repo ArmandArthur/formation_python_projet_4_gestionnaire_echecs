@@ -35,17 +35,7 @@ class AppRouter:
         self.answer = self.main_view.display_menu(self.questions)
 
         if(self.answer == "1"):
-            self.questions = self.menu_principal_player.questions_player()
-            self.answer = self.main_view.display_menu(self.questions)
-
-            if(self.answer == "1"):
-                is_create_player = self.player_controller.display_questions_player()
-                if is_create_player is True:
-                    self.main()
-            elif(self.answer == "2"):
-                list_players = self.player_controller.display_all_players()
-                self.table_view.display(list_players)
-                self.menu_sort()
+            self.menu_player()
 
     def menu_sort(self):
         self.questions = self.menu_sort_players.sort_players()
@@ -55,8 +45,28 @@ class AppRouter:
             self.table_view.display(list_players_sort)
             self.menu_sort()
         else:
+            self.menu_player()
+
+    def menu_player(self):
+        self.questions = self.menu_principal_player.questions_player()
+        self.answer = self.main_view.display_menu(self.questions)
+
+        if(self.answer == "1"):
+            self.menu_questions_player()
+        elif(self.answer == "2"):
+            self.menu_list_players()
+        elif(self.answer == "q"):
             self.main()
 
-
+    def menu_questions_player(self):
+        is_create_player = self.player_controller.display_questions_player()
+        if is_create_player is True:
+            self.main()
+    
+    def menu_list_players(self):
+        list_players = self.player_controller.display_all_players()
+        self.table_view.display(list_players)
+        self.menu_sort()
+        
 if __name__ == "__main__":
     AppRouter()

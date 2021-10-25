@@ -53,8 +53,8 @@ class PlayerController:
         self.answers_keys_sort = answers_keys
 
         players = self.display_all_players()
-        db_sorted = sorted(players, key=lambda row: self.sort_tuple(row))
-        return db_sorted
+        players_sort = sorted(players, key=lambda row: self.sort_tuple(row))
+        return players_sort
     
     def sort_tuple(self, row):
         # Split answer
