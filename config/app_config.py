@@ -2,11 +2,7 @@
 # coding: utf-8
 
 class AppConfig:
-    liste_config = dict(player='players.json', 
-    tournament='tournaments.json')
-
-    def __init__(self, table):
-        self.table = table
+    file_json = 'echecs.json'
 
     def config(self):
-        return self.liste_config[self.table]
+        return self.file_json

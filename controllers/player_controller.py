@@ -37,7 +37,7 @@ class PlayerController:
         newPlayer = self.answers_player
         try:
             player = self.player_model(**newPlayer)
-            self.generique_dao.add(player.dict())
+            self.generique_dao.add(player)
             self.formulaire_view.display_comments("create_player_done")
             return True
         except ValidationError as e:
@@ -61,7 +61,10 @@ class PlayerController:
         split_keys_sort = self.answers_keys_sort.split(',')
         tuple_sort = ()
 
+        # Verify if colonne exist
+        player_model_attributs = list(self.player_model.__fields__.keys())
         # Create tuple with values answers
         for iteration in split_keys_sort:
-            tuple_sort = tuple_sort + (row[iteration],)
+            if iteration in player_model_attributs:
+                tuple_sort = tuple_sort + (row[iteration],)
         return tuple_sort

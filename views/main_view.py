@@ -18,9 +18,12 @@ class MainView:
             print("### Menu : Create Player ###")
         elif(string == 'create_player_done'):
             print("### Player create ###")
+        elif(string == 'create_tournament'):
+            print("### Menu : Create Tournament ###")
 
     def display_errors(self, errors):
         for error_item in errors:
             print("The field "+error_item["loc"][0]+" is invalid")
             print("Message error: "+error_item["msg"])
             print("\n")
+
