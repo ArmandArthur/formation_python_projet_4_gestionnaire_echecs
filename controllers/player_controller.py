@@ -23,7 +23,7 @@ class PlayerController:
         self.player_model = PlayerModel
         self.questions_player = QuestionsPlayerView().main()
         self.formulaire_view = FormulaireView()
-        self.generique_dao = GeneriqueDao('player')
+        self.generique_dao = GeneriqueDao(self.player_model)
         self.answers_player = {}
 
     def display_questions_player(self):
@@ -36,14 +36,13 @@ class PlayerController:
     def verify_player(self):
         newPlayer = self.answers_player
         try:
-            player = self.player_model(**newPlayer)
-            self.generique_dao.add(player)
+            player_instance = self.generique_dao.create_item(**newPlayer)
+            self.generique_dao.save_item(player_instance.id)
             self.formulaire_view.display_comments("create_player_done")
-            return True
         except ValidationError as e:
             errors = e.errors()
             self.formulaire_view.display_errors(errors)
-            self.display_questions_player()
+            input("Impossible to create player")
     
     def display_all_players(self):
         list_players = self.generique_dao.all()
@@ -64,7 +63,7 @@ class PlayerController:
         # Verify if colonne exist
         player_model_attributs = list(self.player_model.__fields__.keys())
         # Create tuple with values answers
-        for iteration in split_keys_sort:
-            if iteration in player_model_attributs:
-                tuple_sort = tuple_sort + (row[iteration],)
+        for attribut_player in split_keys_sort:
+            if attribut_player in player_model_attributs:
+                tuple_sort = tuple_sort + (row[attribut_player],)
         return tuple_sort

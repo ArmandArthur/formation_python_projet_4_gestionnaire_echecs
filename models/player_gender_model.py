@@ -4,6 +4,6 @@
 from enum import Enum
 
 class PlayerGenderModel(str, Enum):
-    Male='H'
-    Female='F'
+    male='H'
+    female='F'
 

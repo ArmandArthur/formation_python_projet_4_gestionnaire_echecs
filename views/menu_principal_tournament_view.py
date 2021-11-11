@@ -7,5 +7,6 @@ class MenuPrincipalTournamentView:
 
     def questions_tournament(self):
         self.questions["tournamentCreate"] = "1) Create tournament"
-        self.questions["tournamentList"] = "2) Tournaments list"
+        self.questions["tournamentStart"] = "2) Start/Continue a tournament"
+        self.questions["tournamentList"] = "3) Tournaments list"
         return self.questions

@@ -13,6 +13,7 @@ from views.table_view import TableView
 from controllers.player_controller import PlayerController
 from controllers.tournament_controller import TournamentController
 
+
 class AppRouter:
     """
         CLASS ROUTER APP
@@ -69,9 +70,9 @@ class AppRouter:
             self.main()
 
     def menu_questions_player(self):
-        is_create_player = self.player_controller.display_questions_player()
-        if is_create_player is True:
-            self.main()
+        self.player_controller.display_questions_player()
+        self.main()
+
 
     def menu_list_players(self):
         list_players = self.player_controller.display_all_players()
@@ -86,15 +87,17 @@ class AppRouter:
         if(self.answer == "1"):
             self.menu_questions_tournament()
         elif(self.answer == "2"):
-            self.menu_list_tournaments()
+            self.menu_start_tournament()
         elif(self.answer == "q"):
             self.main()
 
     def menu_questions_tournament(self):
-        is_create_tournament = self.tournament_controller.display_questions_tournament()
-        if is_create_tournament is True:
-            self.main()
+        self.tournament_controller.display_questions_tournament()
+        self.main()
 
-
+    def menu_start_tournament(self):
+        self.tournament_controller.display_list_tournament()
+        
+ 
 if __name__ == "__main__":
     AppRouter()

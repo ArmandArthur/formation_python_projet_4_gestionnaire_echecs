@@ -6,9 +6,10 @@ class QuestionsTournamentView:
         self.questions = {}
 
     def main(self):
-        self.questions['Name'] = 'What is the name about tournament?'
-        self.questions['Place'] = 'What is the tournament place?'
-        self.questions['StartDate'] = 'When is the beginning?'
-        self.questions['EndDate'] = 'When is the the end?'
-        self.questions['RoundsNumber'] = 'Number of rounds (4 default)'
+        self.questions['name'] = 'What is the name about tournament?'
+        self.questions['place'] = 'What is the tournament place?'
+        self.questions['start_date'] = 'When is the beginning?'
+        self.questions['end_date'] = 'When is the the end?'
+        self.questions['rounds_number'] = 'Number of rounds (4 default)'
+        self.questions['players'] = 'Who plays? Ex: id1,id2,id3 etc..'
         return self.questions

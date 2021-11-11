@@ -12,9 +12,9 @@ from typing import Optional
 
 
 class PlayerModel(BaseModel):
-    Id:  Optional[PositiveInt] = None
-    Name: constr(max_length=100)
-    FirstName: constr(max_length=100)
-    BirthdayDate: date
-    Sexe: PlayerGenderModel
-    Classement: Optional[PositiveInt] = None
+    id:  Optional[PositiveInt] = None
+    name: constr(max_length=100)
+    firstname: constr(max_length=100)
+    birthday_date: date
+    sexe: PlayerGenderModel
+    rank: PositiveInt = 1

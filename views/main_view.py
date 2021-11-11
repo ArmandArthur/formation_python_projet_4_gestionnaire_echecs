@@ -27,3 +27,7 @@ class MainView:
             print("Message error: "+error_item["msg"])
             print("\n")
 
+    def display_input(self):
+        answer = input("Your choice (id tournament): ")
+        print("\n")
+        return answer

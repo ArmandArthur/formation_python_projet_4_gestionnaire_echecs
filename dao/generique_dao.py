@@ -2,6 +2,7 @@
 # coding: utf-8
 
 from tinydb import TinyDB
+from tinydb.table  import Document
 
 from config.app_config import AppConfig
 
@@ -12,27 +13,38 @@ import json
 
 class GeneriqueDao:
 
-    def __init__(self, table):
-        self.app_config = AppConfig()
-        self.path_folder_datas = 'datas'
-        self.path_datas = self.app_config.config()
-        self.path_file = self.path_folder_datas+'/'+self.path_datas
-
-        # Create FOLDER
-        Path(self.path_folder_datas).mkdir(parents=True, exist_ok=True)
-
-        # Create FILE if no exists
-        if os.path.exists(self.path_file) is False: 
-            open(self.path_file, "w")
-
+    def __init__(self, item_type):
         # Init TinyDB
-        self.db = TinyDB(self.path_file, sort_keys=True, indent=4)
-        self.table = self.db.table(table)
+        self.db = TinyDB('datas/echecs.json', sort_keys=True, indent=4)
+        self.table = self.db.table(item_type.__name__.lower()+'s')
+        self.item_type = item_type
 
-    def add(self, datas):
-        datas_json = datas.json()
-        datas_insert = json.loads(datas_json)
-        return self.table.insert(datas_insert)
+        self.items = {}
+        self.max_id = 0
+
+        for item_data in self.table:
+            self.create_item(**item_data)
+
+    def create_item(self, *args, **kwargs):
+        
+        if 'id' not in kwargs:
+            kwargs['id'] = self.max_id + 1
+
+        # instance
+        item = self.item_type(*args, **kwargs)
+        self.items[item.id] = item
+        self.max_id = max(self.max_id, item.id)
+        return item
+
+    def save_item(self, id):
+        item = self.find_by_id(id)
+        self.table.upsert(Document(json.loads(item.json()), doc_id=id))
+        # datas_json = datas.json()
+        # datas_insert = json.loads(datas_json)
+        # return self.table.insert(datas_insert)
     
     def all(self):
-        return self.table.all()
+        return list(self.items.values())
+
+    def find_by_id(self, id):
+        return self.items[id]

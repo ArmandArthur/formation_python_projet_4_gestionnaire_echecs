@@ -11,7 +11,7 @@ from typing import Optional, List
 
 
 class RoundModel(BaseModel):
-    Name: constr(max_length=100)
-    DateStart: date
-    DateEnd: date
+    name: constr(max_length=100)
+    date_start: date
+    date_end: date
     matchs: Optional[List[MatchModel]]
