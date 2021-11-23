@@ -1,7 +1,8 @@
 #!/usr/bin/env python
 # coding: utf-8
+from pydantic.errors import DateError
 from .main_view import MainView
-
+from datetime import datetime, date
 
 class TableView(MainView):
     def display(self, datas):
@@ -16,6 +17,9 @@ class TableView(MainView):
                 for i in list_values:
                     if i is None:
                         list_values_format.append("None")
+                    elif isinstance(i, date):
+                        DATETIME_FORMAT = '%Y-%m-%d'
+                        list_values_format.append(datetime.strftime(i, DATETIME_FORMAT)) 
                     else:
                         list_values_format.append(i)
                 print(row_format.format(*list_values_format))

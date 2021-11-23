@@ -1,5 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
 from .main_view import MainView
 
 
@@ -14,3 +12,10 @@ class FormulaireView(MainView):
             self.items_answer[key] = input(question)
         print("\n")
         return self.items_answer
+
+    def display_match(self, match):
+        print(match.player_id_first)
+        print(match.player_id_second)
+
+        score = input("First player score (Values allowed: 1.0, 0.5, 0.0):")
+        return score

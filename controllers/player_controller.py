@@ -62,8 +62,9 @@ class PlayerController:
 
         # Verify if colonne exist
         player_model_attributs = list(self.player_model.__fields__.keys())
+        
         # Create tuple with values answers
         for attribut_player in split_keys_sort:
             if attribut_player in player_model_attributs:
-                tuple_sort = tuple_sort + (row[attribut_player],)
+                tuple_sort = tuple_sort + (getattr(row, attribut_player), )
         return tuple_sort

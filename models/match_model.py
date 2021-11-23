@@ -3,10 +3,10 @@
 
 from pydantic import (
     BaseModel,
-    PositiveInt,
-    constr
+    PositiveInt
 )
 from models.match_score_enum import MatchScoreEnum
+
 
 class MatchModel(BaseModel):
     player_id_first: PositiveInt
@@ -17,5 +17,8 @@ class MatchModel(BaseModel):
     def score_second(self):
         value_return = None
         if self.score_first is not None:
-            value_return = 1.0-self.score_first
+            value_return = 1.0-float(self.score_first.value)
         return value_return
+
+    # class Config:
+    #     use_enum_values = True

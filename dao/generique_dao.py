@@ -35,6 +35,11 @@ class GeneriqueDao:
         self.items[item.id] = item
         self.max_id = max(self.max_id, item.id)
         return item
+    
+    def update_item(self, instance_model):
+        item =  instance_model.dict()
+        self.items[item['id']] = instance_model
+        return instance_model
 
     def save_item(self, id):
         item = self.find_by_id(id)
