@@ -54,7 +54,7 @@ class PlayerController:
         players = self.display_all_players()
         players_sort = sorted(players, key=lambda row: self.sort_tuple(row))
         return players_sort
-    
+
     def sort_tuple(self, row):
         # Split answer
         split_keys_sort = self.answers_keys_sort.split(',')
@@ -62,7 +62,7 @@ class PlayerController:
 
         # Verify if colonne exist
         player_model_attributs = list(self.player_model.__fields__.keys())
-        
+
         # Create tuple with values answers
         for attribut_player in split_keys_sort:
             if attribut_player in player_model_attributs:

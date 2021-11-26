@@ -6,12 +6,12 @@ from pydantic import (
     BaseModel,
     constr
 )
-from datetime import date
+from datetime import datetime
 from typing import Optional, List
 
 
 class RoundModel(BaseModel):
     name: constr(max_length=100)
-    date_start: date
-    date_end: date
+    date_start: datetime = datetime.today()
+    date_end: datetime = None
     matchs: Optional[List[MatchModel]]

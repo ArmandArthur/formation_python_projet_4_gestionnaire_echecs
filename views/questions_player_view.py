@@ -10,4 +10,5 @@ class QuestionsPlayerView:
         self.questions['firstname'] = 'What is your firstname?'
         self.questions['birthday_date'] = 'When were you born?'
         self.questions['sexe'] = 'What is your sexe?'
+        self.questions['rank'] = 'Rank?'
         return self.questions
