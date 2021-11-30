@@ -1,11 +1,5 @@
-#!/usr/bin/env python
-# coding: utf-8
-
 from tinydb import TinyDB
-from tinydb.table  import Document
-
-from config.app_config import AppConfig
-
+from tinydb.table import Document
 from pathlib import Path
 import os.path 
 import json 
@@ -14,6 +8,7 @@ import json
 class GeneriqueDao:
 
     def __init__(self, item_type):
+    
         # Init TinyDB
         self.db = TinyDB('datas/echecs.json', sort_keys=True, indent=4)
         self.table = self.db.table(item_type.__name__.lower()+'s')

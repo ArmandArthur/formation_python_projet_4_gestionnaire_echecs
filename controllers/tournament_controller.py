@@ -8,7 +8,8 @@ from views.formulaire_view import FormulaireView
 from views.table_view import TableView
 from controllers.player_controller import PlayerController
 
-from dao.generique_dao import GeneriqueDao
+from dao.player_dao import player_dao
+from dao.tournament_dao import tournament_dao
 
 from pydantic import ValidationError
 
@@ -24,7 +25,6 @@ class TournamentController:
         """
             Constructor, storage in attributs module and variables
         """
-        self.tournament_model = TournamentModel
         self.round_model = RoundModel
         self.match_model = MatchModel
         self.match_score_enum_model = MatchScoreEnum
@@ -32,15 +32,14 @@ class TournamentController:
         self.questions_tournament = QuestionsTournamentView().main()
         self.formulaire_view = FormulaireView()
         self.table_view = TableView()
-        
-        self.player_controller = PlayerController()
 
-        self.generique_dao = GeneriqueDao(self.tournament_model)
         self.answers_tournament = {}
 
         self.points_players_dict = {}
         self.players_sort = []
         self.match_list_played = []
+        
+        self.iteration_match_key = 0
         
     def display_questions_tournament(self):
         self.formulaire_view.display_comments("create_tournament")
@@ -56,17 +55,20 @@ class TournamentController:
         players_id_list = newTounament['players'].split(',')
         players_list = []
         for id in players_id_list:
-            players_list.append(int(id))
-    
+            try:
+                player = player_dao.find_by_id(int(id))
+                players_list.append(player.id)
+            except AttributeError:
+                self.formulaire_view.display_text('Invalid ID Player')
+                self.display_questions_tournament()
+                raise       
         # New format datas
         newTounament['players'] = players_list
-        
-        # intension 
+        # intension
         newTounament = {k: v for k, v in newTounament.items() if v}
-        
         try:
-            tournament_instance = self.generique_dao.create_item(**newTounament)
-            self.generique_dao.save_item(tournament_instance.id)
+            tournament_instance = tournament_dao.create_item(**newTounament)
+            tournament_dao.save_item(tournament_instance.id)
             self.formulaire_view.display_comments("create_tournament_done")
             return True
         except ValidationError as e:
@@ -75,10 +77,13 @@ class TournamentController:
             self.display_questions_tournament()
 
     def display_list_tournament(self):
-        list_tournament = self.generique_dao.all()
+        list_tournament = tournament_dao.all()
+
         self.table_view.display_tournaments_compact(list_tournament)
         tournament_id = self.formulaire_view.display_input()
-        tournament = self.generique_dao.items[int(tournament_id)]
+        if(tournament_id == 'q'):
+            return 'q'
+        tournament = tournament_dao.find_by_id(int(tournament_id))
         return tournament
 
     def generate_round(self, tournament):
@@ -94,15 +99,16 @@ class TournamentController:
 
         tournament.rounds.append(round)
 
-        tournament_instance = self.generique_dao.update_item(tournament)
-        self.generique_dao.save_item(tournament_instance.id)
+        tournament_instance = tournament_dao.update_item(tournament)
+        tournament_dao.save_item(tournament_instance.id)
         return tournament_instance
 
     def generate_first_round(self, tournament):
         players = tournament.players
         players_sort = []
         for id in players:
-            players_sort.append(self.player_controller.generique_dao.items[int(id)])
+            player = player_dao.find_by_id(id)
+            players_sort.append(player)
             
         players_sort = sorted(players_sort, key=lambda row: (-row.rank, row.name, row.firstname))
         # id à remplacer par rank
@@ -127,8 +133,8 @@ class TournamentController:
         players = tournament.players
         
         for id in players:
-            player_dao = self.player_controller.generique_dao.items[int(id)]
-            self.players_sort.append(player_dao)
+            player = player_dao.find_by_id(id)
+            self.players_sort.append(player)
         
         self.players_sort = sorted(self.players_sort, key=lambda p: (-float(self.points_players_dict[p.id]), -p.rank))
         
@@ -174,29 +180,42 @@ class TournamentController:
                     if match.score_second is not None:
                         players[match.player_id_second] += float(match.score_second.value)
         return players
-    
 
     def generate_match(self, tournament, index_round):
+
         if index_round == 0:
             match_list = self.generate_first_round(tournament)
         else:
             match_list = self.generate_next_round(tournament)
 
         tournament.rounds[index_round].matchs = match_list
-        tournament_instance = self.generique_dao.update_item(tournament)
-        self.generique_dao.save_item(tournament_instance.id)
+        tournament_instance = tournament_dao.update_item(tournament)
+        tournament_dao.save_item(tournament_instance.id)
         
-    def find_match(self, tournament_id):
-        tournament = self.generique_dao.find_by_id(tournament_id)
-        for key_round, round in enumerate(tournament.rounds):
-            for key_match, match in enumerate(round.matchs):
-                if match.score_first is None:
-                    score = self.formulaire_view.display_match(match)
-                    if(score == "q"):
-                        return score
-                    else:
-                        score = self.match_score_enum_model(float(score))
-                    tournament.rounds[key_round].matchs[key_match].score_first = score
-                    tournament.rounds[key_round].date_end = datetime.today()
-        tournament_instance = self.generique_dao.update_item(tournament)
-        self.generique_dao.save_item(tournament_instance.id)
+    def save_matchs(self, tournament, key_round):
+        tournament.rounds[key_round].date_end = datetime.today()
+        tournament_instance = tournament_dao.update_item(tournament)
+        tournament_dao.save_item(tournament_instance.id)
+    
+    def find_match(self, tournament_params, key_round, key_match, match):        
+        return self.find_match_current(tournament_params, key_round, key_match, match)
+
+    def find_match_current(self, tournament, key_round, key_match, match):
+        
+        self.formulaire_view.display_text(tournament.rounds[key_round].name+' / MATCH '+str(key_match+1) )
+        score = self.formulaire_view.display_match(match)
+        if score == "q":
+            return score
+        else:
+            enum_list_match_score = {k: v.value for k, v in enumerate(self.match_score_enum_model)}
+            try:
+                score = float(score)
+            except ValueError:
+                self.formulaire_view.display_text("Score is not a float")
+                return self.find_match_current(tournament, key_round, key_match, match)
+            if score in enum_list_match_score.values():
+                score = self.match_score_enum_model(score)
+                tournament.rounds[key_round].matchs[key_match].score_first = score
+                return tournament
+            else:
+                return self.find_match_current(tournament, key_round, key_match, match)

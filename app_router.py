@@ -97,20 +97,27 @@ class AppRouter:
 
     def menu_start_tournament(self):
         tournament = self.tournament_controller.display_list_tournament()
-        
+        1.0
+        if(tournament == 'q'):
+            self.menu_tournament()
         while len(tournament.rounds) < tournament.rounds_number:
             tournament = self.tournament_controller.generate_round(tournament)
         
         for index, round in enumerate(tournament.rounds):
             if round.date_end is None:
-                self.tournament_controller.generate_match(tournament, index)
-                quit = self.tournament_controller.find_match(tournament.id)
-                if quit == 'q':
-                    self.main()
+                if len(round.matchs) == 0:
+                    self.tournament_controller.generate_match(tournament, index)
+                for key_match, match in enumerate(tournament.rounds[index].matchs):
+                    tounrnament_return = self.tournament_controller.find_match(tournament, index, key_match, match)
+                    if tounrnament_return == 'q':
+                        self.menu_tournament()
+                self.tournament_controller.save_matchs(tounrnament_return, index)
+                    
 
         if len(tournament.rounds) == tournament.rounds_number:
             self.main_view.display_comments('finish_tournament')
             self.main()
-            
+
+
 if __name__ == "__main__":
     AppRouter()

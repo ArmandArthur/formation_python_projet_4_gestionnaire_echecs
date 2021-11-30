@@ -3,11 +3,11 @@
 
 
 from posixpath import split
-from models.player_model import PlayerModel
+from models.player_model import PlayerModel  
 from views.questions_player_view import QuestionsPlayerView
 from views.formulaire_view import FormulaireView
 
-from dao.generique_dao import GeneriqueDao
+from dao.player_dao import player_dao
 
 from pydantic import ValidationError
 
@@ -23,7 +23,6 @@ class PlayerController:
         self.player_model = PlayerModel
         self.questions_player = QuestionsPlayerView().main()
         self.formulaire_view = FormulaireView()
-        self.generique_dao = GeneriqueDao(self.player_model)
         self.answers_player = {}
 
     def display_questions_player(self):
@@ -36,8 +35,8 @@ class PlayerController:
     def verify_player(self):
         newPlayer = self.answers_player
         try:
-            player_instance = self.generique_dao.create_item(**newPlayer)
-            self.generique_dao.save_item(player_instance.id)
+            player_instance = player_dao.create_item(**newPlayer)
+            player_dao.save_item(player_instance.id)
             self.formulaire_view.display_comments("create_player_done")
         except ValidationError as e:
             errors = e.errors()
@@ -45,8 +44,9 @@ class PlayerController:
             input("Impossible to create player")
     
     def display_all_players(self):
-        list_players = self.generique_dao.all()
-        return list_players
+        list_players = player_dao.all()
+        players_sort = sorted(list_players, key=lambda row: (row.id))
+        return players_sort
     
     def sort_all_players(self, answers_keys):
         self.answers_keys_sort = answers_keys

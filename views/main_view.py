@@ -9,7 +9,7 @@ class MainView:
         self.questions = questions
         for _, question in self.questions.items():
             print(question)
-        answer = input("Your chooce: ")
+        answer = input("Your choice: ")
         print("\n")
         return answer
 
@@ -25,6 +25,7 @@ class MainView:
         print("\n")   
         
     def display_errors(self, errors):
+        print("\n")
         for error_item in errors:
             print("The field "+error_item["loc"][0]+" is invalid")
             print("Message error: "+error_item["msg"])
