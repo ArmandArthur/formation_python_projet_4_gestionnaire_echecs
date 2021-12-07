@@ -1,7 +1,4 @@
-#!/usr/bin/env python
-# coding: utf-8
 from models.round_model import RoundModel
-from models.player_model import PlayerModel
 
 from pydantic import (
     BaseModel,
@@ -10,7 +7,7 @@ from pydantic import (
     validator
 )
 from datetime import date
-from typing import  Optional, List
+from typing import Optional, List
 
 
 class TournamentModel(BaseModel):
@@ -19,18 +16,18 @@ class TournamentModel(BaseModel):
     place: constr(max_length=100)
     start_date: date
     end_date: date
-    rounds_number: PositiveInt = 4
     rounds: Optional[List[RoundModel]] = []
     players: List[PositiveInt]
+    rounds_number: PositiveInt = 4
 
     @validator('players')
     def player_length_must_be_even(cls, v):
         if len(v) % 2 != 0:
             raise ValueError('Players lenght must be even')
         return v
-    
-    # @validator('rounds_number')
-    # def init_value(cls, v):
-    #     if v == '':
-    #         v = 4
-    #     return v
+
+    @validator('rounds_number')
+    def init_value(cls, v, values):
+        if v >= len(values['players']):
+            raise ValueError('The number of rounds must be lower than the number of players')
+        return v

@@ -1,13 +1,10 @@
-#!/usr/bin/env python
-# coding: utf-8
-from pydantic.errors import DateError
 from .main_view import MainView
 from datetime import datetime, date
+
 
 class TableView(MainView):
     def display(self, datas):
         if(len(datas) > 0):
-   
             datas_keys = datas[0].__fields__.keys()
             row_format = "{:<20}" * (len(datas_keys))
             print(row_format.format(*datas_keys))
@@ -19,7 +16,7 @@ class TableView(MainView):
                         list_values_format.append("None")
                     elif isinstance(i, date):
                         DATETIME_FORMAT = '%Y-%m-%d'
-                        list_values_format.append(datetime.strftime(i, DATETIME_FORMAT)) 
+                        list_values_format.append(datetime.strftime(i, DATETIME_FORMAT))
                     else:
                         list_values_format.append(i)
                 print(row_format.format(*list_values_format))
@@ -33,6 +30,6 @@ class TableView(MainView):
         for tournament in list_tournament:
             list_values_format = []
             for _key, i in tournament:
-                if _key == 'id' or _key == 'name': 
+                if _key == 'id' or _key == 'name':
                     list_values_format.append(i)
             print(row_format.format(*list_values_format))

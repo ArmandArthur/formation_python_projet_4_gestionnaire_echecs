@@ -1,10 +1,6 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-
-from posixpath import split
-from models.player_model import PlayerModel  
+from models.player_model import PlayerModel
 from views.questions_player_view import QuestionsPlayerView
+from views.questions_rank_player_view import QuestionsRankPlayerView
 from views.formulaire_view import FormulaireView
 
 from dao.player_dao import player_dao
@@ -22,8 +18,10 @@ class PlayerController:
         """
         self.player_model = PlayerModel
         self.questions_player = QuestionsPlayerView().main()
+        self.questions_rank_player = QuestionsRankPlayerView().main()
         self.formulaire_view = FormulaireView()
         self.answers_player = {}
+        self.answers_rank_player = {}
 
     def display_questions_player(self):
         self.formulaire_view.display_comments("create_player")
@@ -31,6 +29,13 @@ class PlayerController:
         self.answers_player = answer
         # New PLAYER
         return self.verify_player()
+
+    def display_questions_rank_player(self):
+        self.formulaire_view.display_comments("edit_rank_player")
+        answer = self.formulaire_view.display_questions(self.questions_rank_player)
+        self.answers_rank_player = answer
+        # New PLAYER
+        return self.verify_rank_player()
 
     def verify_player(self):
         newPlayer = self.answers_player
@@ -41,13 +46,26 @@ class PlayerController:
         except ValidationError as e:
             errors = e.errors()
             self.formulaire_view.display_errors(errors)
-            input("Impossible to create player")
-    
+
+    def verify_rank_player(self):
+        edit_player = self.answers_rank_player
+        try:
+            player_instance = player_dao.find_by_id(int(edit_player['id']))
+            try:
+                player_instance.rank = edit_player['rank']
+                player_dao.save_item(player_instance.id)
+                self.formulaire_view.display_comments("edit_rank_player_done")
+            except ValidationError as e:
+                errors = e.errors()
+                self.formulaire_view.display_errors(errors)
+        except KeyError as e:
+            self.formulaire_view.display_ey_error(e)
+
     def display_all_players(self):
         list_players = player_dao.all()
         players_sort = sorted(list_players, key=lambda row: (row.id))
         return players_sort
-    
+
     def sort_all_players(self, answers_keys):
         self.answers_keys_sort = answers_keys
 

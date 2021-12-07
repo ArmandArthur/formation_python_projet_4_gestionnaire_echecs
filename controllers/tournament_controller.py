@@ -1,4 +1,3 @@
-from models.tournament_model import TournamentModel
 from models.round_model import RoundModel
 from models.match_model import MatchModel
 from models.match_score_enum import MatchScoreEnum
@@ -6,7 +5,6 @@ from models.match_score_enum import MatchScoreEnum
 from views.questions_tournament_view import QuestionsTournamentView
 from views.formulaire_view import FormulaireView
 from views.table_view import TableView
-from controllers.player_controller import PlayerController
 
 from dao.player_dao import player_dao
 from dao.tournament_dao import tournament_dao
@@ -28,7 +26,6 @@ class TournamentController:
         self.round_model = RoundModel
         self.match_model = MatchModel
         self.match_score_enum_model = MatchScoreEnum
-        
         self.questions_tournament = QuestionsTournamentView().main()
         self.formulaire_view = FormulaireView()
         self.table_view = TableView()
@@ -38,9 +35,8 @@ class TournamentController:
         self.points_players_dict = {}
         self.players_sort = []
         self.match_list_played = []
-        
         self.iteration_match_key = 0
-        
+
     def display_questions_tournament(self):
         self.formulaire_view.display_comments("create_tournament")
         answer = self.formulaire_view.display_questions(self.questions_tournament)
@@ -51,7 +47,7 @@ class TournamentController:
 
     def verify_tournament(self):
         newTounament = self.answers_tournament
-        
+
         players_id_list = newTounament['players'].split(',')
         players_list = []
         for id in players_id_list:
@@ -61,7 +57,7 @@ class TournamentController:
             except AttributeError:
                 self.formulaire_view.display_text('Invalid ID Player')
                 self.display_questions_tournament()
-                raise       
+                raise
         # New format datas
         newTounament['players'] = players_list
         # intension
@@ -94,14 +90,14 @@ class TournamentController:
 
         round = self.round_model(
             name="ROUND "+round_numero,
-            matchs= []
+            matchs=[]
         )
 
         tournament.rounds.append(round)
 
-        tournament_instance = tournament_dao.update_item(tournament)
-        tournament_dao.save_item(tournament_instance.id)
-        return tournament_instance
+        # tournament_instance = tournament_dao.update_item(tournament)
+        tournament_dao.save_item(tournament.id)
+        return tournament
 
     def generate_first_round(self, tournament):
         players = tournament.players
@@ -109,10 +105,10 @@ class TournamentController:
         for id in players:
             player = player_dao.find_by_id(id)
             players_sort.append(player)
-            
+
         players_sort = sorted(players_sort, key=lambda row: (-row.rank, row.name, row.firstname))
         # id à remplacer par rank
-        
+
         group_first = players_sort[:len(players_sort)//2]
         group_second = players_sort[len(players_sort)//2:]
 
@@ -125,21 +121,21 @@ class TournamentController:
             ))
 
         return match_list
-    
+
     def generate_next_round(self, tournament):
         self.points_players_dict = self.points_players(tournament)
         self.matchs_played(tournament)
-        
+
         players = tournament.players
-        
+
         for id in players:
             player = player_dao.find_by_id(id)
             self.players_sort.append(player)
-        
+
         self.players_sort = sorted(self.players_sort, key=lambda p: (-float(self.points_players_dict[p.id]), -p.rank))
-        
+
         match_list = []
- 
+
         while len(self.players_sort) > 0:
             p1 = self.players_sort.pop(0)
             p2 = self.search_game_next_round(p1, 0)
@@ -149,7 +145,7 @@ class TournamentController:
                 score_first=None)
             )
         return match_list
-        
+
     def search_game_next_round(self, player_1, iteration):
         player_2 = self.players_sort[iteration]
         new_game = (player_1, player_2)
@@ -160,7 +156,7 @@ class TournamentController:
             iteration = iteration + 1
             self.search_game_next_round(player_1, iteration)
         return player_2
-    
+
     def matchs_played(self, tournament):
         for round in tournament.rounds:
             # Permet de créer un round sans matchs
@@ -168,7 +164,7 @@ class TournamentController:
                 for match in round.matchs:
                     game = (match.player_id_first, match.player_id_second)
                     self.match_list_played.append(game)
-     
+
     def points_players(self, tournament):
         players = defaultdict(int)
         for round in tournament.rounds:
@@ -189,20 +185,19 @@ class TournamentController:
             match_list = self.generate_next_round(tournament)
 
         tournament.rounds[index_round].matchs = match_list
-        tournament_instance = tournament_dao.update_item(tournament)
-        tournament_dao.save_item(tournament_instance.id)
-        
+        # tournament_instance = tournament_dao.update_item(tournament)
+        tournament_dao.save_item(tournament.id)
+
     def save_matchs(self, tournament, key_round):
         tournament.rounds[key_round].date_end = datetime.today()
-        tournament_instance = tournament_dao.update_item(tournament)
-        tournament_dao.save_item(tournament_instance.id)
-    
-    def find_match(self, tournament_params, key_round, key_match, match):        
+        # tournament_instance = tournament_dao.update_item(tournament)
+        tournament_dao.save_item(tournament.id)
+
+    def find_match(self, tournament_params, key_round, key_match, match):
         return self.find_match_current(tournament_params, key_round, key_match, match)
 
     def find_match_current(self, tournament, key_round, key_match, match):
-        
-        self.formulaire_view.display_text(tournament.rounds[key_round].name+' / MATCH '+str(key_match+1) )
+        self.formulaire_view.display_text(tournament.rounds[key_round].name+' / MATCH '+str(key_match+1))
         score = self.formulaire_view.display_match(match)
         if score == "q":
             return score

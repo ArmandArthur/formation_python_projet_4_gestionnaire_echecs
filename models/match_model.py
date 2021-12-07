@@ -19,6 +19,3 @@ class MatchModel(BaseModel):
         if self.score_first is not None:
             value_return = 1.0-float(self.score_first.value)
         return MatchScoreEnum(value_return) if value_return is not None else None
-
-    # class Config:
-    #     use_enum_values = True

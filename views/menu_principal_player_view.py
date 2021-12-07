@@ -8,4 +8,5 @@ class MenuPrincipalPlayerView:
     def questions_player(self):
         self.questions["playerCreate"] = "1) Create player"
         self.questions["playerList"] = "2) Players list"
+        self.questions["playerRank"] = "3) Edit rank's player"
         return self.questions

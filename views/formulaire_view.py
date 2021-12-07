@@ -8,7 +8,7 @@ class FormulaireView(MainView):
         self.items = {}
         self.items_answer = {}
         self.dao_players = None
-        
+
     def display_questions(self, items):
         self.items = items
         for key, question in self.items.items():
@@ -25,7 +25,3 @@ class FormulaireView(MainView):
 
         score = input("First player score (Values allowed: 1.0, 0.5, 0.0):")
         return score
-    
-    def display_text(self, text):
-        print("\n")
-        print('*** '+text+' ***')

@@ -22,16 +22,30 @@ class MainView:
             print("### Menu : Create Tournament ###")
         elif(string == 'finish_tournament'):
             print("### Menu : Tournament finished ###")
-        print("\n")   
-        
+        elif(string == 'edit_rank_player'):
+            print("### Player edition rank ###")
+        elif(string == 'edit_rank_player_done'):
+            print("### Rank is edited ###")
+            
+        print("\n")
+
     def display_errors(self, errors):
         print("\n")
         for error_item in errors:
             print("The field "+error_item["loc"][0]+" is invalid")
             print("Message error: "+error_item["msg"])
             print("\n")
-
+            
+    def display_key_error(self, e):
+        print("\n")
+        print("Invalid Id")
+        print("\n")
+            
     def display_input(self):
         answer = input("Your choice (id tournament): ")
         print("\n")
         return answer
+
+    def display_text(self, text):
+        print("\n")
+        print('*** '+text+' ***')

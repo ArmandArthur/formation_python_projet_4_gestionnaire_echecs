@@ -66,13 +66,23 @@ class AppRouter:
             self.menu_questions_player()
         elif(self.answer == "2"):
             self.menu_list_players()
+        elif(self.answer == "3"):
+            self.menu_list_players_edit()
         elif(self.answer == "q"):
             self.main()
+
+    def menu_list_players_edit(self):
+        list_players = self.player_controller.display_all_players()
+        self.table_view.display(list_players)
+        self.menu_questions_rank_player()
+
+    def menu_questions_rank_player(self):
+        self.player_controller.display_questions_rank_player()
+        self.main()
 
     def menu_questions_player(self):
         self.player_controller.display_questions_player()
         self.main()
-
 
     def menu_list_players(self):
         list_players = self.player_controller.display_all_players()
@@ -102,7 +112,7 @@ class AppRouter:
             self.menu_tournament()
         while len(tournament.rounds) < tournament.rounds_number:
             tournament = self.tournament_controller.generate_round(tournament)
-        
+
         for index, round in enumerate(tournament.rounds):
             if round.date_end is None:
                 if len(round.matchs) == 0:
@@ -112,8 +122,6 @@ class AppRouter:
                     if tounrnament_return == 'q':
                         self.menu_tournament()
                 self.tournament_controller.save_matchs(tounrnament_return, index)
-                    
-
         if len(tournament.rounds) == tournament.rounds_number:
             self.main_view.display_comments('finish_tournament')
             self.main()
