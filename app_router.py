@@ -46,6 +46,8 @@ class AppRouter:
             self.menu_player()
         elif(self.answer == "2"):
             self.menu_tournament()
+        else:
+            exit()
 
     # MENU PLAYER
     def menu_sort(self):
@@ -98,6 +100,8 @@ class AppRouter:
             self.menu_questions_tournament()
         elif(self.answer == "2"):
             self.menu_start_tournament()
+        elif(self.answer == "3"):
+            self.menu_rapport_tournament()
         elif(self.answer == "q"):
             self.main()
 
@@ -107,8 +111,7 @@ class AppRouter:
 
     def menu_start_tournament(self):
         tournament = self.tournament_controller.display_list_tournament()
-        1.0
-        if(tournament == 'q'):
+        if(tournament == 'q' or tournament == 'error'):
             self.menu_tournament()
         while len(tournament.rounds) < tournament.rounds_number:
             tournament = self.tournament_controller.generate_round(tournament)
@@ -126,6 +129,13 @@ class AppRouter:
             self.main_view.display_comments('finish_tournament')
             self.main()
 
-
+    def menu_rapport_tournament(self):
+        tournament = self.tournament_controller.display_list_tournament()
+        if(tournament == 'q' or tournament == 'error'):
+            self.menu_tournament()
+        self.tournament_controller.display_rapport_tournament(tournament)
+        self.main()
+        
+        
 if __name__ == "__main__":
     AppRouter()

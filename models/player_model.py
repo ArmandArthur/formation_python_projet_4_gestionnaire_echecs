@@ -24,7 +24,6 @@ class PlayerModel(BaseModel):
 
     @validator('rank')
     def rank_must_be_integer(cls, v):
-        print(type(v))
         if isinstance(v, str):
             raise ValueError('Rank must be integer')
         return v

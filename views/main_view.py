@@ -36,11 +36,16 @@ class MainView:
             print("Message error: "+error_item["msg"])
             print("\n")
             
-    def display_key_error(self, e):
+    def display_key_error(self):
         print("\n")
         print("Invalid Id")
         print("\n")
-            
+        
+    def display_error_simple(self, e):
+        print("\n")
+        print(e)
+        print("\n")
+        
     def display_input(self):
         answer = input("Your choice (id tournament): ")
         print("\n")

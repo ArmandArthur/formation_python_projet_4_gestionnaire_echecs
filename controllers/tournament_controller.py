@@ -72,6 +72,9 @@ class TournamentController:
             self.formulaire_view.display_errors(errors)
             self.display_questions_tournament()
 
+    def display_rapport_tournament(self, tournament):
+        self.table_view.display_rapport(tournament)
+
     def display_list_tournament(self):
         list_tournament = tournament_dao.all()
 
@@ -79,9 +82,18 @@ class TournamentController:
         tournament_id = self.formulaire_view.display_input()
         if(tournament_id == 'q'):
             return 'q'
-        tournament = tournament_dao.find_by_id(int(tournament_id))
-        return tournament
-
+        try:
+            tournament_id = int(tournament_id)
+        except ValueError as e:
+            self.formulaire_view.display_error_simple(e)
+            return 'error'
+        try:
+            tournament = tournament_dao.find_by_id(tournament_id)
+            return tournament
+        except KeyError:
+            self.formulaire_view.display_key_error()
+            return 'error'
+    
     def generate_round(self, tournament):
         if len(tournament.rounds) == 0:
             round_numero = str(1)

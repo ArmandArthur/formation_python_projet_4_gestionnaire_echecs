@@ -1,6 +1,5 @@
 from .main_view import MainView
-from dao.generique_dao import GeneriqueDao
-from models.player_model import PlayerModel
+from dao.player_dao import player_dao
 
 
 class FormulaireView(MainView):
@@ -17,9 +16,8 @@ class FormulaireView(MainView):
         return self.items_answer
 
     def display_match(self, match):
-        self.dao_players = GeneriqueDao(PlayerModel)
-        player_1 = self.dao_players.find_by_id(match.player_id_first)
-        player_2 = self.dao_players.find_by_id(match.player_id_second)
+        player_1 = player_dao.find_by_id(match.player_id_first)
+        player_2 = player_dao.find_by_id(match.player_id_second)
         print(str(match.player_id_first)+' ('+player_1.name+' '+player_1.firstname+')')
         print(str(match.player_id_second)+' ('+player_2.name+' '+player_2.firstname+')')
 

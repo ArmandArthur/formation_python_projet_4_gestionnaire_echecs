@@ -1,5 +1,6 @@
 from .main_view import MainView
 from datetime import datetime, date
+from dao.player_dao import player_dao
 
 
 class TableView(MainView):
@@ -33,3 +34,17 @@ class TableView(MainView):
                 if _key == 'id' or _key == 'name':
                     list_values_format.append(i)
             print(row_format.format(*list_values_format))
+
+    def display_rapport(self, tournament):
+        print("Tournament name : "+tournament.name)
+        print("\n") 
+        for round in tournament.rounds:
+            print(round.name)
+            for index_match, match in enumerate(round.matchs):
+                player_1 = player_dao.find_by_id(match.player_id_first)
+                player_2 = player_dao.find_by_id(match.player_id_second)
+                print("     Match "+str(index_match+1))
+                if match.score_first is not None:
+                    print("          "+player_1.firstname+" "+player_1.name+" ("+str(match.score_first.value)+")")
+                    print("          "+player_2.firstname+" "+player_2.name+" ("+str(match.score_second.value)+")")
+            print("\n")

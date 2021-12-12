@@ -1,0 +1,20 @@
+./app_router.py:138:1: W293 blank line contains whitespace
+./app_router.py:139:1: W293 blank line contains whitespace
+./views/main_view.py:29:1: W293 blank line contains whitespace
+./views/main_view.py:38:1: W293 blank line contains whitespace
+./views/main_view.py:43:1: W293 blank line contains whitespace
+./views/main_view.py:48:1: W293 blank line contains whitespace
+./views/main_view.py:56:34: W292 no newline at end of file
+./views/table_view.py:40:20: W291 trailing whitespace
+./views/table_view.py:49:24: W292 no newline at end of file
+./config/app_config.py:8:30: W292 no newline at end of file
+./controllers/tournament_controller.py:96:1: W293 blank line contains whitespace
+./models/player_gender_model.py:6:1: E302 expected 2 blank lines, found 1
+./models/player_gender_model.py:7:9: E225 missing whitespace around operator
+./models/player_gender_model.py:8:11: E225 missing whitespace around operator
+./models/player_gender_model.py:9:1: W391 blank line at end of file
+./models/match_score_enum.py:6:1: E302 expected 2 blank lines, found 1
+./models/match_score_enum.py:7:8: E225 missing whitespace around operator
+./models/match_score_enum.py:8:10: E225 missing whitespace around operator
+./models/match_score_enum.py:9:9: E225 missing whitespace around operator
+./models/match_score_enum.py:10:1: W391 blank line at end of file

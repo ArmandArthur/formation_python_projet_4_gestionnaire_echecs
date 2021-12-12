@@ -50,7 +50,11 @@ class PlayerController:
     def verify_rank_player(self):
         edit_player = self.answers_rank_player
         try:
-            player_instance = player_dao.find_by_id(int(edit_player['id']))
+            try:
+                edit_player_id = int(edit_player['id'])
+            except ValueError:
+                return None
+            player_instance = player_dao.find_by_id(edit_player_id)
             try:
                 player_instance.rank = edit_player['rank']
                 player_dao.save_item(player_instance.id)
@@ -58,8 +62,8 @@ class PlayerController:
             except ValidationError as e:
                 errors = e.errors()
                 self.formulaire_view.display_errors(errors)
-        except KeyError as e:
-            self.formulaire_view.display_ey_error(e)
+        except KeyError:
+            self.formulaire_view.display_key_error()
 
     def display_all_players(self):
         list_players = player_dao.all()
