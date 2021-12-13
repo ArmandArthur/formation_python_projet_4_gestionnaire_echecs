@@ -140,6 +140,7 @@ class TournamentController:
 
         players = tournament.players
 
+        self.players_sort = []
         for id in players:
             player = player_dao.find_by_id(id)
             self.players_sort.append(player)
@@ -148,7 +149,7 @@ class TournamentController:
 
         match_list = []
 
-        while len(self.players_sort) > 0:
+        while len(self.players_sort) > 1:
             p1 = self.players_sort.pop(0)
             p2 = self.search_game_next_round(p1, 0)
             match_list.append(self.match_model(
@@ -159,14 +160,16 @@ class TournamentController:
         return match_list
 
     def search_game_next_round(self, player_1, iteration):
+
         player_2 = self.players_sort[iteration]
-        new_game = (player_1, player_2)
-        if new_game not in self.match_list_played:
-            # Retire le joueur 2 de la liste
-            self.players_sort.pop(iteration)
+        new_game = (player_1.id, player_2.id)
+        if new_game in self.match_list_played:
+            # sinon bug 0.5 4ème round
+            if len(self.players_sort) > 1:
+                iteration = iteration + 1
+                return self.search_game_next_round(player_1, iteration)
         else:
-            iteration = iteration + 1
-            self.search_game_next_round(player_1, iteration)
+            self.players_sort = [i for i in self.players_sort if not (i.id == player_2.id)]
         return player_2
 
     def matchs_played(self, tournament):
