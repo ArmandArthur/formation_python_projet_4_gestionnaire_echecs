@@ -1,0 +1,68 @@
+{
+    "playermodels": {
+        "1": {
+            "birthday_date": "1990-12-01",
+            "firstname": "Magnus",
+            "id": 1,
+            "name": "CARLSEN",
+            "rank": 2882,
+            "sexe": "H"
+        },
+        "2": {
+            "birthday_date": "1963-03-01",
+            "firstname": "Garry",
+            "id": 2,
+            "name": "KASPAROV",
+            "rank": 2851,
+            "sexe": "H"
+        },
+        "3": {
+            "birthday_date": "1992-07-05",
+            "firstname": "Fabiano",
+            "id": 3,
+            "name": "CARUANA",
+            "rank": 2844,
+            "sexe": "H"
+        },
+        "4": {
+            "birthday_date": "1982-10-06",
+            "firstname": "Levon",
+            "id": 4,
+            "name": "ARONIAN",
+            "rank": 2830,
+            "sexe": "H"
+        },
+        "5": {
+            "birthday_date": "1993-10-25",
+            "firstname": "Wesley",
+            "id": 5,
+            "name": "SO",
+            "rank": 2822,
+            "sexe": "H"
+        },
+        "6": {
+            "birthday_date": "1995-04-30",
+            "firstname": "Shakhriyar",
+            "id": 6,
+            "name": "MAMEDYAROV",
+            "rank": 2820,
+            "sexe": "H"
+        },
+        "7": {
+            "birthday_date": "1990-10-14",
+            "firstname": "Maxime",
+            "id": 7,
+            "name": "VACHIER-LAGRAVE",
+            "rank": 2819,
+            "sexe": "H"
+        },
+        "8": {
+            "birthday_date": "1969-12-17",
+            "firstname": "Viswanathan",
+            "id": 8,
+            "name": "ANAND",
+            "rank": 2817,
+            "sexe": "H"
+        }
+    }
+}
