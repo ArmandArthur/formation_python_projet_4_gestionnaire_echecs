@@ -6,6 +6,11 @@ class QuestionsPlayerView:
         self.questions = {}
 
     def main(self):
+        """
+            Dict des questions sur le joueur avec en clé l'attribut pydantic
+
+            @return: Le dict
+        """
         self.questions['name'] = 'What is your name?'
         self.questions['firstname'] = 'What is your firstname?'
         self.questions['birthday_date'] = 'When were you born?'

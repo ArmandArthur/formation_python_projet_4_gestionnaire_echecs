@@ -6,6 +6,11 @@ class MenuPrincipalView:
         self.questions = {}
 
     def questions_main(self):
+        """
+            Liste des modes possibles
+
+            @return: Le dict
+        """
         self.questions["player"] = "1) Mode player"
         self.questions["tournament"] = "2) Mode tournament"
         return self.questions

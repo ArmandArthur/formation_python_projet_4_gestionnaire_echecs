@@ -39,6 +39,9 @@ class AppRouter:
         self.main()
 
     def main(self):
+        """
+            Main menu, redérige vers le menu joueur ou tournoi
+        """
         self.questions = self.menu_principal.questions_main()
         self.answer = self.main_view.display_menu(self.questions)
 
@@ -51,6 +54,9 @@ class AppRouter:
 
     # MENU PLAYER
     def menu_sort(self):
+        """
+            Menu de trie des joueurs
+        """
         self.questions = self.menu_sort_players.sort_players()
         self.answer = self.main_view.display_menu(self.questions)
         if(self.answer != 'q'):
@@ -61,6 +67,9 @@ class AppRouter:
             self.menu_player()
 
     def menu_player(self):
+        """
+            Routing vers les sous menus du joueur
+        """
         self.questions = self.menu_principal_player.questions_player()
         self.answer = self.main_view.display_menu(self.questions)
 
@@ -74,25 +83,40 @@ class AppRouter:
             self.main()
 
     def menu_list_players_edit(self):
+        """
+            Affiche la liste des joueurs + menu rank
+        """
         list_players = self.player_controller.display_all_players()
         self.table_view.display(list_players)
         self.menu_questions_rank_player()
 
     def menu_questions_rank_player(self):
+        """
+            Question édition du rank du joueur
+        """
         self.player_controller.display_questions_rank_player()
         self.main()
 
     def menu_questions_player(self):
+        """
+            Question création du joueur
+        """
         self.player_controller.display_questions_player()
         self.main()
 
     def menu_list_players(self):
+        """
+            Appelle la vue de la liste des joueurs + trie possible
+        """
         list_players = self.player_controller.display_all_players()
         self.table_view.display(list_players)
         self.menu_sort()
 
     # MENU TOUNRMAMET
     def menu_tournament(self):
+        """
+            Routing vers les sous menu tournoi
+        """
         self.questions = self.menu_principal_tournament.questions_tournament()
         self.answer = self.main_view.display_menu(self.questions)
 
@@ -106,10 +130,16 @@ class AppRouter:
             self.main()
 
     def menu_questions_tournament(self):
+        """
+            Questions d'un tournoi
+        """
         self.tournament_controller.display_questions_tournament()
         self.main()
 
     def menu_start_tournament(self):
+        """
+            Débuter / reprendre un tournoi
+        """
         tournament = self.tournament_controller.display_list_tournament()
         if(tournament == 'q' or tournament == 'error'):
             self.menu_tournament()
@@ -130,12 +160,15 @@ class AppRouter:
             self.main()
 
     def menu_rapport_tournament(self):
+        """
+            Menu rapport d'un tournoi
+        """
         tournament = self.tournament_controller.display_list_tournament()
         if(tournament == 'q' or tournament == 'error'):
             self.menu_tournament()
         self.tournament_controller.display_rapport_tournament(tournament)
         self.main()
-        
-        
+
+
 if __name__ == "__main__":
     AppRouter()

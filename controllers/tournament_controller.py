@@ -21,7 +21,7 @@ class TournamentController:
     """
     def __init__(self):
         """
-            Constructor, storage in attributs module and variables
+            Déclarations des variables de classe principales
         """
         self.round_model = RoundModel
         self.match_model = MatchModel
@@ -38,6 +38,11 @@ class TournamentController:
         self.iteration_match_key = 0
 
     def display_questions_tournament(self):
+        """
+            Affiche les questions de la création d'un tournoi
+
+            @return: instance de tournament pydantic
+        """
         self.formulaire_view.display_comments("create_tournament")
         answer = self.formulaire_view.display_questions(self.questions_tournament)
         self.answers_tournament = answer
@@ -46,6 +51,12 @@ class TournamentController:
         return self.verify_tournament()
 
     def verify_tournament(self):
+        """
+            Vérifie si les joueurs saisies sont bien dans le DAO player
+            + création du tounoi avec validation pydantic + erreurs
+
+            @return: instance de tournament pydantic
+        """
         newTounament = self.answers_tournament
 
         players_id_list = newTounament['players'].split(',')
@@ -73,9 +84,19 @@ class TournamentController:
             self.display_questions_tournament()
 
     def display_rapport_tournament(self, tournament):
+        """
+            Appelle la vue des rapports
+
+            @param: tournament model
+        """
         self.table_view.display_rapport(tournament)
 
     def display_list_tournament(self):
+        """
+            Affiche la liste des tournois
+
+            @param: q (quitter) ou error
+        """
         list_tournament = tournament_dao.all()
 
         self.table_view.display_tournaments_compact(list_tournament)
@@ -93,8 +114,14 @@ class TournamentController:
         except KeyError:
             self.formulaire_view.display_key_error()
             return 'error'
-    
+
     def generate_round(self, tournament):
+        """
+            Génération des rounds avec leur nom
+
+            @param: tournament
+            @return: tournament
+        """
         if len(tournament.rounds) == 0:
             round_numero = str(1)
         else:
@@ -112,6 +139,12 @@ class TournamentController:
         return tournament
 
     def generate_first_round(self, tournament):
+        """
+            Génération le 1er round en fonction du rank, name, firstname
+
+            @param: tournament
+            @return: liste of match pydantic
+        """
         players = tournament.players
         players_sort = []
         for id in players:
@@ -135,6 +168,12 @@ class TournamentController:
         return match_list
 
     def generate_next_round(self, tournament):
+        """
+            Génération des rounds suivant en fonction des points des joueurs dans le tournoi
+
+            @param: tournament
+            @return: liste of match pydantic
+        """
         self.points_players_dict = self.points_players(tournament)
         self.matchs_played(tournament)
 
@@ -160,7 +199,14 @@ class TournamentController:
         return match_list
 
     def search_game_next_round(self, player_1, iteration):
+        """
+            Cherche un nouveau adversaire au joueur_1 si il a déjà joué le joueur 2
+            + supprime le joueur 2 de la liste si validé.
 
+            @param: player_1 : player instance
+            @param: iteration : l'iteration pour trouver le suivant
+            @return: recursive fonction
+        """
         player_2 = self.players_sort[iteration]
         new_game = (player_1.id, player_2.id)
         if new_game in self.match_list_played:
@@ -173,6 +219,11 @@ class TournamentController:
         return player_2
 
     def matchs_played(self, tournament):
+        """
+            Ajoute les matchs joués dans une liste.
+
+            @param: tournament
+        """
         for round in tournament.rounds:
             # Permet de créer un round sans matchs
             if round.matchs is not None:
@@ -181,6 +232,12 @@ class TournamentController:
                     self.match_list_played.append(game)
 
     def points_players(self, tournament):
+        """
+            Calcul le nombre de points des joueurs au total dans le tournoi
+
+            @param: tournament
+            @return: dictionnaire des points en fonction de l'id du joueur
+        """
         players = defaultdict(int)
         for round in tournament.rounds:
             # Permet de créer un round sans matchs
@@ -193,7 +250,12 @@ class TournamentController:
         return players
 
     def generate_match(self, tournament, index_round):
+        """
+            Génération des matchs
 
+            @param: tournament
+            @param2: l'index du round
+        """
         if index_round == 0:
             match_list = self.generate_first_round(tournament)
         else:
@@ -204,14 +266,39 @@ class TournamentController:
         tournament_dao.save_item(tournament.id)
 
     def save_matchs(self, tournament, key_round):
+        """
+            Met à jour la date de fin du round sur la date actuelle
+
+            @param: tournament
+            @param2: l'index du round
+        """
         tournament.rounds[key_round].date_end = datetime.today()
         # tournament_instance = tournament_dao.update_item(tournament)
         tournament_dao.save_item(tournament.id)
 
     def find_match(self, tournament_params, key_round, key_match, match):
+        """
+            Cherche un match
+
+            @param: tournament_params
+            @param2: l'index du round
+            @param3: l'index du match
+            @param4: le match
+            @return: la fonction find_match_current
+        """
         return self.find_match_current(tournament_params, key_round, key_match, match)
 
     def find_match_current(self, tournament, key_round, key_match, match):
+        """
+            Fonction récursive qui relance la saisie du match si invalide saisie
+
+            @param: tournament_params
+            @param2: l'index du round
+            @param3: l'index du match
+            @param4: le match
+            @return: tournament / quitter ou elle même si erreur
+            @raise: score non valide
+        """
         self.formulaire_view.display_text(tournament.rounds[key_round].name+' / MATCH '+str(key_match+1))
         score = self.formulaire_view.display_match(match)
         if score == "q":

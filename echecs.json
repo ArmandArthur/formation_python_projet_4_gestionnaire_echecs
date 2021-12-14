@@ -1,0 +1,12 @@
+{
+    "playermodels": {
+        "1": {
+            "birthday_date": "2019-01-01",
+            "firstname": "test",
+            "id": 1,
+            "name": "test",
+            "rank": 1000,
+            "sexe": "H"
+        }
+    }
+}

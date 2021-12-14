@@ -3,7 +3,8 @@
 
 from enum import Enum
 
-class PlayerGenderModel(str, Enum):
-    male='H'
-    female='F'
 
+class PlayerGenderModel(str, Enum):
+    male = 'H'
+    female = 'F'
+    

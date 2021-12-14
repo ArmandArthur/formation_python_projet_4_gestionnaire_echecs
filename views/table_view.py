@@ -5,6 +5,11 @@ from dao.player_dao import player_dao
 
 class TableView(MainView):
     def display(self, datas):
+        """
+            Affiche la liste des joueurs
+
+            @param: datas => liste d'instance pydantic
+        """
         if(len(datas) > 0):
             datas_keys = datas[0].__fields__.keys()
             row_format = "{:<20}" * (len(datas_keys))
@@ -25,6 +30,11 @@ class TableView(MainView):
             print("No player create...")
 
     def display_tournaments_compact(self, list_tournament):
+        """
+            Affiche la liste des tournoi en mode simplifié
+
+            @param: list_tournament => liste d'instance pydantic
+        """
         row_format = "{:<20}" * 2
         headers = ['id', 'name']
         print(row_format.format(*headers))
@@ -36,8 +46,13 @@ class TableView(MainView):
             print(row_format.format(*list_values_format))
 
     def display_rapport(self, tournament):
+        """
+            Affiche un rapport du tournoi
+
+            @param: tournament => instance pydantic
+        """
         print("Tournament name : "+tournament.name)
-        print("\n") 
+        print("\n")
         for round in tournament.rounds:
             print(round.name)
             for index_match, match in enumerate(round.matchs):

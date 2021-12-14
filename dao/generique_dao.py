@@ -6,8 +6,13 @@ import json
 class GeneriqueDao:
 
     def __init__(self, item_type):
+        """
+            Constructeur du DAO
+
+            @param item_type: Model pydantic
+        """
         # Init TinyDB
-        self.db = TinyDB('datas/echecs.json', sort_keys=True, indent=4)
+        self.db = TinyDB('echecs.json', sort_keys=True, indent=4)
         self.table = self.db.table(item_type.__name__.lower()+'s')
         self.item_type = item_type
 
@@ -18,6 +23,12 @@ class GeneriqueDao:
             self.create_item(**item_data)
 
     def create_item(self, *args, **kwargs):
+        """
+            Créé un item dans le dictionnaire
+
+            @param args/kwargs: Prends tous les paramètres possibles
+            @return: item instancié
+        """
         if 'id' not in kwargs:
             kwargs['id'] = self.max_id + 1
 
@@ -28,11 +39,24 @@ class GeneriqueDao:
         return item
 
     def save_item(self, id):
+        """
+            Sauvegarde le document par son doc_id
+        """
         item = self.find_by_id(id)
         self.table.upsert(Document(json.loads(item.json()), doc_id=id))
 
     def all(self):
+        """
+            Liste des valeurs
+
+            @return: Une liste des valeurs du dictionnaire
+        """
         return list(self.items.values())
 
     def find_by_id(self, id):
+        """
+            Cherche un item par son ID
+
+            @return: instance pydandic
+        """
         return self.items[id]

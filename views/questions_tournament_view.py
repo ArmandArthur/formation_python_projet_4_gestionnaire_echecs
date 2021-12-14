@@ -6,6 +6,11 @@ class QuestionsTournamentView:
         self.questions = {}
 
     def main(self):
+        """
+            Dict des questions sur le tournoi avec en clé l'attribut pydantic
+
+            @return: Le dict
+        """
         self.questions['name'] = 'What is the name about tournament?'
         self.questions['place'] = 'What is the tournament place?'
         self.questions['start_date'] = 'When is the beginning?'
