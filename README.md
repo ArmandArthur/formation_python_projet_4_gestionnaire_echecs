@@ -1,6 +1,6 @@
-# Gestionnaire de touroi d'échec
+# Gestionnaire de tournoi d'échec
 
-- [Gestionnaire de touroi d'échec](#gestionnaire-de-touroi-déchec)
+- [Gestionnaire de tournoi d'échec](#gestionnaire-de-tournoi-déchec)
 - [Installer un virtual env:](#installer-un-virtual-env)
 - [Installer les dépendances:](#installer-les-dépendances)
 - [Lancer le programme:](#lancer-le-programme)
@@ -13,7 +13,7 @@ https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-e
 # Installer les dépendances:
 
 `pip install -r requirements.txt`<br />
-ou
+ou <br />
 `pip3 install -r requirements.txt`
 
 # Lancer le programme:
