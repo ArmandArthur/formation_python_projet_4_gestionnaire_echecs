@@ -1,2 +1,0 @@
-./models/player_gender_model.py:10:1: W293 blank line contains whitespace
-./models/player_gender_model.py:10:1: W293 blank line contains whitespace
