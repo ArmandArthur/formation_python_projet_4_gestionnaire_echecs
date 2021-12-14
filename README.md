@@ -12,18 +12,18 @@ https://packaging.python.org/en/latest/guides/installing-using-pip-and-virtual-e
 
 # Installer les dépendances:
 
-`pip install -r requirements.txt`
+`pip install -r requirements.txt`<br />
 ou
 `pip3 install -r requirements.txt`
 
 # Lancer le programme:
 
-`cd formation_python_projet_4_gestionnaire_echecs`
-`py app_router.py` (windows)
+`cd formation_python_projet_4_gestionnaire_echecs`<br />
+`py app_router.py` (windows)<br />
 `python3 app_router.py` (linux)
 
 
 # Installer et run flake8:
 
-`pip3 install flake8`
+`pip3 install flake8`<br />
 `flake8 --ouput-file=repport.txt`
