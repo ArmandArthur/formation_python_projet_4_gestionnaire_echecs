@@ -61,6 +61,14 @@ class TournamentController:
 
         players_id_list = newTounament['players'].split(',')
         players_list = []
+        
+        for index, id in enumerate(players_id_list):
+            try:
+                id_int = int(id)
+                players_id_list[index] = id_int
+            except ValueError:
+                players_id_list.pop(index)
+                
         for id in players_id_list:
             try:
                 player = player_dao.find_by_id(int(id))
