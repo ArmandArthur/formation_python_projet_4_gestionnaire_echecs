@@ -133,3 +133,5 @@ datas/
 
 # vs code folder
 .vscode/
+
+echecs.json
