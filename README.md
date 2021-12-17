@@ -26,4 +26,5 @@ ou <br />
 # Installer et run flake8:
 
 `pip3 install flake8`<br />
+(y ajouter l'environnement virtuel)<br />
 `flake8 --ouput-file=repport.txt`
